@@ -43,12 +43,14 @@
      MINUS = 259,
      MULT = 260,
      DIV = 261,
-     FOR = 262,
-     WHILE = 263,
-     IF = 264,
-     INTEGER = 265,
-     FLOAT = 266,
-     IDENT = 267
+     R_PARENTH = 262,
+     L_PARENTH = 263,
+     FOR = 264,
+     WHILE = 265,
+     IF = 266,
+     INTEGER = 267,
+     FLOAT = 268,
+     IDENT = 269
    };
 #endif
 /* Tokens.  */
@@ -56,12 +58,14 @@
 #define MINUS 259
 #define MULT 260
 #define DIV 261
-#define FOR 262
-#define WHILE 263
-#define IF 264
-#define INTEGER 265
-#define FLOAT 266
-#define IDENT 267
+#define R_PARENTH 262
+#define L_PARENTH 263
+#define FOR 264
+#define WHILE 265
+#define IF 266
+#define INTEGER 267
+#define FLOAT 268
+#define IDENT 269
 
 
 
@@ -75,7 +79,7 @@ typedef union YYSTYPE
     char *str;
 }
 /* Line 1529 of yacc.c.  */
-#line 79 "parse.h"
+#line 83 "parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

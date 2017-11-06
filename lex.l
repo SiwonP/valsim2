@@ -10,6 +10,8 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 
 %%
 
+")"             { return R_PARENTH; }
+"("             { return L_PARENTH; }
 "*"             { return MULT; }
 "/"             { return DIV; }
 "-"             { return MINUS; }

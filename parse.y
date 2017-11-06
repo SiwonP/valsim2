@@ -14,6 +14,9 @@ int yyerror(char*);
 %token MULT
 %token DIV
 
+%token R_PARENTH
+%token L_PARENTH
+
 %token FOR
 %token WHILE
 %token IF
@@ -33,7 +36,8 @@ a_term:     a_term MULT a_factor
         |   a_factor
         ;
 
-a_factor:   INTEGER
+a_factor:   L_PARENTH a_exp R_PARENTH
+        |   INTEGER
         ;
 
 %%
