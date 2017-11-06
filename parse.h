@@ -39,21 +39,29 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     FOR = 258,
-     WHILE = 259,
-     IF = 260,
-     INTEGER = 261,
-     FLOAT = 262,
-     IDENT = 263
+     PLUS = 258,
+     MINUS = 259,
+     MULT = 260,
+     DIV = 261,
+     FOR = 262,
+     WHILE = 263,
+     IF = 264,
+     INTEGER = 265,
+     FLOAT = 266,
+     IDENT = 267
    };
 #endif
 /* Tokens.  */
-#define FOR 258
-#define WHILE 259
-#define IF 260
-#define INTEGER 261
-#define FLOAT 262
-#define IDENT 263
+#define PLUS 258
+#define MINUS 259
+#define MULT 260
+#define DIV 261
+#define FOR 262
+#define WHILE 263
+#define IF 264
+#define INTEGER 265
+#define FLOAT 266
+#define IDENT 267
 
 
 
@@ -67,7 +75,7 @@ typedef union YYSTYPE
     char *str;
 }
 /* Line 1529 of yacc.c.  */
-#line 71 "parse.h"
+#line 79 "parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

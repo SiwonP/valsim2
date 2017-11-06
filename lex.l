@@ -10,6 +10,10 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 
 %%
 
+"*"             { return MULT; }
+"/"             { return DIV; }
+"-"             { return MINUS; }
+"+"             { return PLUS; }
 "for"           { printf("%s\n", yytext); return FOR; }
 "while"         { printf("%s\n", yytext); return WHILE; }
 "if"            { printf("%s\n", yytext); return IF; }
