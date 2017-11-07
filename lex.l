@@ -10,6 +10,15 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 
 %%
 
+"true"          { return TRUE; }
+"false"         { return FALSE; }
+"&&"            { return AND; }
+"||"            { return OR; }
+\"              { return QUOTE; }
+"'"             { return QUOTE; }
+"let"           { return LET; }
+"="             { return EGAL; }
+";"             { return SEMICOLON; }
 ")"             { return R_PARENTH; }
 "("             { return L_PARENTH; }
 "*"             { return MULT; }
@@ -23,5 +32,6 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 {FLOAT}         { return FLOAT; }
 {IDENT}         { return IDENT; }
 [ \t]+          { /* nothing to do */ } 
+"\n"            { /* nothing to do */ }
 
 %%

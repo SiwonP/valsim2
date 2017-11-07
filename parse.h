@@ -43,14 +43,24 @@
      MINUS = 259,
      MULT = 260,
      DIV = 261,
-     R_PARENTH = 262,
-     L_PARENTH = 263,
-     FOR = 264,
-     WHILE = 265,
-     IF = 266,
-     INTEGER = 267,
-     FLOAT = 268,
-     IDENT = 269
+     OR = 262,
+     AND = 263,
+     TRUE = 264,
+     FALSE = 265,
+     R_PARENTH = 266,
+     L_PARENTH = 267,
+     LET = 268,
+     SEMICOLON = 269,
+     EGAL = 270,
+     QUOTE = 271,
+     FOR = 272,
+     WHILE = 273,
+     IF = 274,
+     INTEGER = 275,
+     FLOAT = 276,
+     IDENT = 277,
+     OU = 278,
+     ET = 279
    };
 #endif
 /* Tokens.  */
@@ -58,28 +68,38 @@
 #define MINUS 259
 #define MULT 260
 #define DIV 261
-#define R_PARENTH 262
-#define L_PARENTH 263
-#define FOR 264
-#define WHILE 265
-#define IF 266
-#define INTEGER 267
-#define FLOAT 268
-#define IDENT 269
+#define OR 262
+#define AND 263
+#define TRUE 264
+#define FALSE 265
+#define R_PARENTH 266
+#define L_PARENTH 267
+#define LET 268
+#define SEMICOLON 269
+#define EGAL 270
+#define QUOTE 271
+#define FOR 272
+#define WHILE 273
+#define IF 274
+#define INTEGER 275
+#define FLOAT 276
+#define IDENT 277
+#define OU 278
+#define ET 279
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 6 "parse.y"
+#line 7 "parse.y"
 {
     int itype;
     float dtype;
     char *str;
 }
 /* Line 1529 of yacc.c.  */
-#line 83 "parse.h"
+#line 103 "parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
