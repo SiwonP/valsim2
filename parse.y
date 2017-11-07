@@ -10,62 +10,88 @@ int yyerror(char*);
     char *str;
 }
 
-%token PLUS
-%token MINUS
-%token MULT
-%token DIV
-
-%token OR
-%token AND
+%token OR_OP
+%token AND_OP
 
 %token TRUE
 %token FALSE
 
-%token R_PARENTH
-%token L_PARENTH
-
 %token LET
-%token SEMICOLON
-%token EGAL
-%token QUOTE
 
 %token FOR
 %token WHILE
 %token IF
+%token ELSE
+
 %token <itype> INTEGER
 %token <dtype> FLOAT
 %token <str> IDENT
 
-%left PLUS MINUS OU
-%left MULT DIV ET
+%left '+' '-' OU
+%left '*' '/' ET
 
 %%
-declar_var: LET var SEMICOLON
-        |   LET affect_var
+
+declarator
+        :   IDENT
         ;
 
-affect_var: var EGAL exp SEMICOLON
+declaration
+        :
         ;
 
-var:        IDENT
+initializer
+        :
         ;
 
-exp:        a_exp
+declaration_list
+        :   declaration
+        |   declaration_list declaration
         ;
 
-a_exp:      a_exp PLUS a_term 
-        |   a_term
+locical_or_exp
+        :   logical_and_exp
+        |   logical_or_exp OR_OP logical_and_exp
         ;
 
-a_term:     a_term MULT a_factor
-        |   a_factor
+logical_and_exp
+        :   
+
+iteration_statement
+        :   WHILE '(' expression ')' statement
+        |   FOR '(' expression_statement expression_statement expression ')'
+statement
         ;
 
-a_factor:   L_PARENTH a_exp R_PARENTH
-        |   INTEGER
+selection_statement
+        :   IF '(' expression ')' statement
+        |   IF '(' expression ')' statement ELSE statement
+
+expression_statement
+        :   ';'
+        |   expression ';'
         ;
 
+compound_statement
+        :   '{' statement_list '}'
+        |   '{' declaration_list '}'
+        |   '{' declaration_list statement_list '}'
+        ;
+
+statement_list
+        :   statement
+        |   statement_list statement
+        ;
+
+statement
+        :   expression_statement
+        |   selection_statement
+        |   iteration_statement
+        |   compound_statement
+        ; 
 %%
+
+
 int main(int argc, char *argv[])
 {
     yyin = fopen(argv[1], "r");

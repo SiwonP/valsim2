@@ -12,26 +12,25 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 
 "true"          { return TRUE; }
 "false"         { return FALSE; }
-"&&"            { return AND; }
-"||"            { return OR; }
-\"              { return QUOTE; }
-"'"             { return QUOTE; }
+"&&"            { return AND_OP; }
+"||"            { return OR_OP; }
 "let"           { return LET; }
-"="             { return EGAL; }
-";"             { return SEMICOLON; }
-")"             { return R_PARENTH; }
-"("             { return L_PARENTH; }
-"*"             { return MULT; }
-"/"             { return DIV; }
-"-"             { return MINUS; }
-"+"             { return PLUS; }
-"for"           { printf("%s\n", yytext); return FOR; }
-"while"         { printf("%s\n", yytext); return WHILE; }
-"if"            { printf("%s\n", yytext); return IF; }
+"="             { return '='; }
+";"             { return ';'; }
+")"             { return '('; }
+"("             { return ')'; }
+"*"             { return '*'; }
+"/"             { return '/'; }
+"%"             { return '%'; }
+"-"             { return '-'; }
+"+"             { return '+'; }
+"for"           { return FOR; }
+"while"         { return WHILE; }
+"if"            { return IF; }
+"else"          { return ELSE; }
 {INTEGER}       { return INTEGER; }
 {FLOAT}         { return FLOAT; }
 {IDENT}         { return IDENT; }
-[ \t]+          { /* nothing to do */ } 
-"\n"            { /* nothing to do */ }
+[ \t\n]+          { /* nothing to do */ } 
 
 %%
