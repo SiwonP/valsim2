@@ -36,8 +36,18 @@ declarator
         :   IDENT
         ;
 
+init_declarator
+        :   declarator
+        |   declarator '=' initializer
+        ;
+
+init_declarator_list
+        :   init_declarator
+        |   init_declarator_list ',' init_declarator
+        ;
+
 declaration
-        :
+        :   LET init_declarator_list ';'
         ;
 
 initializer
