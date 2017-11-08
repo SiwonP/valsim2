@@ -3,8 +3,8 @@ project(valsim)
 find_package(FLEX)
 find_package(BISON)
 
-BISON_TARGET(parser src/parse.y src/parse.c)
-FLEX_TARGET(lexer src/lex.l src/lex.c)
+BISON_TARGET(parser src/parse.y ${CMAKE_CURRENT_BINARY_DIR}/parse.c COMPILE_FLAGS -d)
+FLEX_TARGET(lexer src/lex.l ${CMAKE_CURRENT_BINARY_DIR}/lex.c)
 
 add_executable(
     valsim

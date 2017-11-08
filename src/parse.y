@@ -12,6 +12,10 @@ int yyerror(char*);
 
 %token OR_OP
 %token AND_OP
+%token LE_OP
+%token GE_OP
+%token EQ_OP
+%token NE_OP
 
 %token TRUE
 %token FALSE
@@ -51,7 +55,11 @@ declaration
         ;
 
 initializer
-        :
+        :   assignement_expression
+        ;
+
+assignement_expression
+        :   logical_or_expression
         ;
 
 declaration_list
@@ -59,13 +67,53 @@ declaration_list
         |   declaration_list declaration
         ;
 
-locical_or_exp
-        :   logical_and_exp
-        |   logical_or_exp OR_OP logical_and_exp
+logical_or_expression
+        :   logical_and_expression
+        |   logical_or_expression OR_OP logical_and_expression
         ;
 
-logical_and_exp
-        :   
+logical_and_expression
+        :   equality_expression
+        |   logical_and_expression AND_OP logical
+        |   logical
+        ;
+
+logical
+        :   TRUE
+        |   FALSE
+        ;
+
+equality_expression
+        :   relational_expression
+        |   equality_expression EQ_OP relational_expression
+        |   equality_expression NE_OP relational_expression
+        ;
+
+relational_expression
+        :   sum_expression
+        |   relational_expression LE_OP sum_expression
+        |   relational_expression GE_OP sum_expression
+        |   relational_expression '<' sum_expression
+        |   relational_expression '>' sum_expression
+        ;
+
+sum_expression
+        :   sum_expression '+' product_expression
+        |   sum_expression '-' product_expression
+        |   product_expression
+        ;  
+
+product_expression
+        :   product_expression '*' cast_expression
+        |   product_expression '/' cast_expression
+        |   product_expression '%' cast_expression
+        |   cast_expression
+        ;
+
+cast_expression
+        :   IDENT
+        |   '(' expression ')'
+        ;
 
 iteration_statement
         :   WHILE '(' expression ')' statement
@@ -76,6 +124,11 @@ statement
 selection_statement
         :   IF '(' expression ')' statement
         |   IF '(' expression ')' statement ELSE statement
+
+expression
+        :   assignement_expression
+        |   expression ',' assignement_expression
+        ;
 
 expression_statement
         :   ';'

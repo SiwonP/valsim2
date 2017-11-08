@@ -14,6 +14,13 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 "false"         { return FALSE; }
 "&&"            { return AND_OP; }
 "||"            { return OR_OP; }
+"!"             { return '!'; }
+"<="            { return LE_OP; }
+">="            { return GE_OP; }
+"<"             { return '<'; }
+">"             { return '>'; }
+"=="            { return EQ_OP; }
+"!="            { return NE_OP; }
 "let"           { return LET; }
 "="             { return '='; }
 ";"             { return ';'; }
@@ -31,6 +38,6 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 {INTEGER}       { return INTEGER; }
 {FLOAT}         { return FLOAT; }
 {IDENT}         { return IDENT; }
-[ \t\n]+          { /* nothing to do */ } 
+[ \t\n]+        { /* nothing to do */ } 
 
 %%
