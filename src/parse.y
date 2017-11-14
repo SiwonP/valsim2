@@ -16,6 +16,8 @@ int yyerror(char*);
 %token GE_OP
 %token EQ_OP
 %token NE_OP
+%token '('
+%token ')'
 
 %token TRUE
 %token FALSE
@@ -31,127 +33,59 @@ int yyerror(char*);
 %token <dtype> FLOAT
 %token <str> IDENT
 
-%left '+' '-' OU
-%left '*' '/' ET
+%left '+' '-' OR_OP
+%left '*' '/' AND_OP
 
 %%
+statement_list
+: statement
+| statement_list statement
+;
 
-declarator
-        :   IDENT
-        ;
-
-init_declarator
-        :   declarator
-        |   declarator '=' initializer
-        ;
-
-init_declarator_list
-        :   init_declarator
-        |   init_declarator_list ',' init_declarator
-        ;
-
-declaration
-        :   LET init_declarator_list ';'
-        ;
-
-initializer
-        :   assignement_expression
-        ;
-
-assignement_expression
-        :   logical_or_expression
-        ;
-
-declaration_list
-        :   declaration
-        |   declaration_list declaration
-        ;
-
-logical_or_expression
-        :   logical_and_expression
-        |   logical_or_expression OR_OP logical_and_expression
-        ;
-
-logical_and_expression
-        :   equality_expression
-        |   logical_and_expression AND_OP logical
-        |   logical
-        ;
-
-logical
-        :   TRUE
-        |   FALSE
-        ;
-
-equality_expression
-        :   relational_expression
-        |   equality_expression EQ_OP relational_expression
-        |   equality_expression NE_OP relational_expression
-        ;
-
-relational_expression
-        :   sum_expression
-        |   relational_expression LE_OP sum_expression
-        |   relational_expression GE_OP sum_expression
-        |   relational_expression '<' sum_expression
-        |   relational_expression '>' sum_expression
-        ;
-
-sum_expression
-        :   sum_expression '+' product_expression
-        |   sum_expression '-' product_expression
-        |   product_expression
-        ;  
-
-product_expression
-        :   product_expression '*' cast_expression
-        |   product_expression '/' cast_expression
-        |   product_expression '%' cast_expression
-        |   cast_expression
-        ;
-
-cast_expression
-        :   IDENT
-        |   '(' expression ')'
-        ;
-
-iteration_statement
-        :   WHILE '(' expression ')' statement
-        |   FOR '(' expression_statement expression_statement expression ')'
 statement
-        ;
+: assignement_statement
+| expression_statement
+;
 
-selection_statement
-        :   IF '(' expression ')' statement
-        |   IF '(' expression ')' statement ELSE statement
-
-expression
-        :   assignement_expression
-        |   expression ',' assignement_expression
-        ;
+assignement_statement
+: LET IDENT
+| LET IDENT '=' expression
+;
 
 expression_statement
-        :   ';'
-        |   expression ';'
-        ;
+: expression ';'
+| ';'
+;
 
-compound_statement
-        :   '{' statement_list '}'
-        |   '{' declaration_list '}'
-        |   '{' declaration_list statement_list '}'
-        ;
+expression
+: logical_or_expression
+| additive_expression
+;
 
-statement_list
-        :   statement
-        |   statement_list statement
-        ;
+logical_or_expression
+: logical_and_expression
+| logical_or_expression OR_OP logical_and_expression
+;
 
-statement
-        :   expression_statement
-        |   selection_statement
-        |   iteration_statement
-        |   compound_statement
-        ; 
+logical_and_expression
+: TRUE
+| logical_and_expression AND_OP TRUE
+;
+         
+additive_expression
+: multiplicative_expression
+| additive_expression '+' multiplicative_expression
+| additive_expression '-' multiplicative_expression
+;
+
+multiplicative_expression
+: INTEGER
+| multiplicative_expression '*' INTEGER
+| multiplicative_expression '/' INTEGER
+| multiplicative_expression '%' INTEGER
+| '(' additive_expression ')'
+;
+
 %%
 
 
@@ -159,7 +93,7 @@ int main(int argc, char *argv[])
 {
     yyin = fopen(argv[1], "r");
     if (yyparse() == 0) {
-        printf("success parsing");
+        printf("success parsing\n");
         return 0;
     }
     return 1;
