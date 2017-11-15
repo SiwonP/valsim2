@@ -16,8 +16,6 @@ int yyerror(char*);
 %token GE_OP
 %token EQ_OP
 %token NE_OP
-%token '('
-%token ')'
 
 %token TRUE
 %token FALSE
@@ -43,13 +41,25 @@ statement_list
 ;
 
 statement
-: assignement_statement
+: declaration_statement
 | expression_statement
+| if_statement
+| compound_statement
 ;
 
-assignement_statement
-: LET IDENT
-| LET IDENT '=' expression
+if_statement
+: IF '(' expression ')' statement
+| IF '(' expression ')' ELSE statement
+;
+
+compound_statement
+: '{' '}'
+| '{' statement '}'
+;
+
+declaration_statement
+: LET IDENT ';'
+| LET IDENT '=' expression_statement
 ;
 
 expression_statement
@@ -69,7 +79,9 @@ logical_or_expression
 
 logical_and_expression
 : TRUE
+| FALSE
 | logical_and_expression AND_OP TRUE
+| logical_and_expression AND_OP FALSE
 ;
          
 additive_expression
@@ -87,7 +99,7 @@ multiplicative_expression
 ;
 
 %%
-
+extern int column;
 
 int main(int argc, char *argv[])
 {
@@ -101,6 +113,8 @@ int main(int argc, char *argv[])
 
 int yyerror(char *s)
 {
-    printf("%s\n", s);
+    fflush(stdout);
+    printf("\n%*s\n%*s\n", column, "^", column, s);
+    printf("%d\n", column);
     return 1;
 }
