@@ -41,8 +41,7 @@ statement_list
 ;
 
 statement
-: declaration_statement
-| expression_statement
+: expression_statement
 | if_statement
 | compound_statement
 ;
@@ -54,12 +53,34 @@ if_statement
 
 compound_statement
 : '{' '}'
-| '{' statement '}'
+| '{' statement_list '}'
+| '{' declarator_list '}'
+| '{' declarator_list statement_list '}'
 ;
 
-declaration_statement
-: LET IDENT ';'
-| LET IDENT '=' expression_statement
+declarator_list
+: declarator ';'
+| declarator_list ',' declarator ';'
+;
+
+declarator
+: LET IDENT 
+| LET IDENT '=' expression
+| IDENT '=' expression
+;
+
+variables
+: variable
+| variable ',' variables
+
+variable
+: IDENT
+| IDENT = expression
+;
+
+assignement_expression
+: expression
+| IDENT '=' assignement_expression
 ;
 
 expression_statement
