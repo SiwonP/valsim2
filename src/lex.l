@@ -41,7 +41,7 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 {INTEGER}       { count(); return INTEGER; }
 {FLOAT}         { count(); return FLOAT; }
 {IDENT}         { count(); return IDENT; }
-[ \t\n]+        { count();/* nothing to do */ } 
+[ \t\n]+        { count();/* nothing to do */ }
 
 %%
 
@@ -51,6 +51,7 @@ void count()
 {
     int i;
     for (i = 0; yytext[i] != '\0'; i++) {
+        printf("%c", yytext[i]);
         if (yytext[i] == '\n') {
             column = 0;
         } else if (yytext[i] == '\t') {

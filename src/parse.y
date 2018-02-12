@@ -35,62 +35,9 @@ int yyerror(char*);
 %left '*' '/' AND_OP
 
 %%
-statement_list
-: statement
-| statement_list statement
-;
-
-statement
-: expression_statement
-| if_statement
-| compound_statement
-;
-
-if_statement
-: IF '(' expression ')' statement
-| IF '(' expression ')' ELSE statement
-;
-
-compound_statement
-: '{' '}'
-| '{' statement_list '}'
-| '{' declarator_list '}'
-| '{' declarator_list statement_list '}'
-;
-
-declarator_list
-: declarator ';'
-| declarator_list ',' declarator ';'
-;
-
-declarator
-: LET IDENT 
-| LET IDENT '=' expression
-| IDENT '=' expression
-;
-
-variables
-: variable
-| variable ',' variables
-
-variable
-: IDENT
-| IDENT = expression
-;
 
 assignement_expression
-: expression
-| IDENT '=' assignement_expression
-;
-
-expression_statement
-: expression ';'
-| ';'
-;
-
-expression
 : logical_or_expression
-| additive_expression
 ;
 
 logical_or_expression
@@ -99,12 +46,24 @@ logical_or_expression
 ;
 
 logical_and_expression
-: TRUE
-| FALSE
-| logical_and_expression AND_OP TRUE
-| logical_and_expression AND_OP FALSE
+: equality_expression
+| logical_and_expression AND_OP equality_expression
 ;
-         
+
+equality_expression
+: relational_expression
+| equality_expression EQ_OP relational_expression
+| equality_expression NE_OP relational_expression
+;
+
+relational_expression
+: additive_expression
+| relational_expression '<' additive_expression
+| relational_expression '>' additive_expression
+| relational_expression LE_OP additive_expression
+| relational_expression GE_OP additive_expression
+;
+
 additive_expression
 : multiplicative_expression
 | additive_expression '+' multiplicative_expression
