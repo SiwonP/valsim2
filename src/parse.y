@@ -36,8 +36,14 @@ int yyerror(char*);
 
 %%
 
+expression
+: assignement_expression
+| expression ',' assignement_expression
+;
+
 assignement_expression
 : logical_or_expression
+| LET unary_expression '=' assignement_expression
 ;
 
 logical_or_expression
@@ -71,11 +77,16 @@ additive_expression
 ;
 
 multiplicative_expression
-: INTEGER
-| multiplicative_expression '*' INTEGER
-| multiplicative_expression '/' INTEGER
-| multiplicative_expression '%' INTEGER
+: unary_expression
+| multiplicative_expression '*' unary_expression
+| multiplicative_expression '/' unary_expression
+| multiplicative_expression '%' unary_expression
 | '(' additive_expression ')'
+;
+
+unary_expression
+: IDENT
+| INTEGER
 ;
 
 %%
