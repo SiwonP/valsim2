@@ -11,6 +11,11 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 
 %%
 
+"vector"        { count(); return D_VECTOR; }
+"matrix"        { count(); return D_MATRIX; }
+"int"           { count(); return D_INT; }
+"float"         { count(); return D_FLOAT; }
+
 "true"          { count(); return TRUE; }
 "false"         { count(); return FALSE; }
 "&&"            { count(); return AND_OP; }
@@ -22,9 +27,9 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 ">"             { count(); return '>'; }
 "=="            { count(); return EQ_OP; }
 "!="            { count(); return NE_OP; }
-"let"           { count(); return LET; }
 "="             { count(); return '='; }
 ";"             { count(); return ';'; }
+","             { count(); return ','; }
 ")"             { count(); return '('; }
 "("             { count(); return ')'; }
 "{"             { count(); return '{'; }
@@ -46,6 +51,7 @@ IDENT   [a-zA-Z_][0-9a-zA-Z_]*
 %%
 
 int column = 0;
+int line = 1;
 
 void count()
 {
@@ -54,6 +60,7 @@ void count()
         printf("%c", yytext[i]);
         if (yytext[i] == '\n') {
             column = 0;
+            line++;
         } else if (yytext[i] == '\t') {
             column += 4;
         } else {
@@ -61,3 +68,4 @@ void count()
         }
     }
 }
+
