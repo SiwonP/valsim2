@@ -20,12 +20,17 @@ int yyerror(char*);
 %token TRUE
 %token FALSE
 
-%token LET
+%token D_VECTOR
+%token D_MATRIX
+%token D_INT
+%token D_FLOAT
 
 %token FOR
 %token WHILE
 %token IF
 %token ELSE
+
+%token FUNCTION
 
 %token <itype> INTEGER
 %token <dtype> FLOAT
@@ -34,7 +39,48 @@ int yyerror(char*);
 %left '+' '-' OR_OP
 %left '*' '/' AND_OP
 
+%start unit
+
 %%
+
+unit
+: declaration
+;
+
+declaration
+: statement_list
+;
+
+statement_list
+: statement
+| statement_list statement
+;
+
+statement
+: expression_statement
+| selection_statement
+| iteration_statement
+| compound_statement
+;
+
+selection_statement
+: IF '(' expression ')' statement
+| IF '(' expression ')' ELSE statement
+;
+
+iteration_statement
+: FOR '(' expression_statement expression_statement expression ')' statement
+| WHILE '(' expression ')' statement
+;
+compound_statement
+: '{' '}'
+| '{' statement_list '}'
+;
+
+expression_statement
+: ';'
+| expression ';'
+;
 
 expression
 : assignement_expression
@@ -43,7 +89,7 @@ expression
 
 assignement_expression
 : logical_or_expression
-| LET unary_expression '=' assignement_expression
+| declarative_word unary_expression '=' assignement_expression
 ;
 
 logical_or_expression
@@ -87,16 +133,44 @@ multiplicative_expression
 unary_expression
 : IDENT
 | INTEGER
+| vector
+| matrix
+;
+
+vector
+: '[' float_vector ']'
+;
+
+float_vector
+: FLOAT
+| float_vector ',' FLOAT
+;
+
+matrix
+: '[' matrix_row ']'
+;
+
+matrix_row
+: vector
+| matrix_row ',' vector
+;
+
+declarative_word
+: D_MATRIX
+| D_VECTOR
+| D_FLOAT
+| D_INT
 ;
 
 %%
 extern int column;
+extern int line;
 
 int main(int argc, char *argv[])
 {
     yyin = fopen(argv[1], "r");
     if (yyparse() == 0) {
-        printf("success parsing\n");
+        printf("\nSuccess parsing !\n");
         return 0;
     }
     return 1;
@@ -106,6 +180,6 @@ int yyerror(char *s)
 {
     fflush(stdout);
     printf("\n%*s\n%*s\n", column, "^", column, s);
-    printf("%d\n", column);
+    printf("%s in column %d of line %d\n", s, column, line);
     return 1;
 }
